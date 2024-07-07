@@ -1,25 +1,25 @@
 # Use a Python 3.9 slim image as the base
 FROM python:3.9-slim
 
-# Install Java and Notebook packages
+# Install Java and necessary tools
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk-headless && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache --upgrade pip && \
-    pip install --no-cache notebook jupyterlab
+    apt-get install -y \
+    openjdk-11-jdk-headless \
+    r-base \
+    r-base-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set JAVA_HOME environment variable
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
-# Install rJava dependencies
-RUN apt-get update && \
-    apt-get install -y r-base-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install rJava package
+# Install rJava package and dependencies
 RUN R CMD javareconf && \
     R -e "install.packages('rJava', repos='http://cran.rstudio.com/')"
+
+# Install Python packages (example: notebook, jupyterlab)
+RUN pip install --no-cache --upgrade pip && \
+    pip install --no-cache notebook jupyterlab
 
 # Create a non-root user with a home directory
 ARG NB_USER
