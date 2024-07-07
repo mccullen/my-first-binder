@@ -1,9 +1,10 @@
 ---
 title: "Hello"
+format: html
+editor: visual
 ---
 
 ```{r}
 # Hello, World! in R
 print("Hello, World!")
 ```
-
