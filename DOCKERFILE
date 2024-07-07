@@ -12,6 +12,15 @@ RUN apt-get update && \
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
+# Install rJava dependencies
+RUN apt-get update && \
+    apt-get install -y r-base-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install rJava package
+RUN R CMD javareconf && \
+    R -e "install.packages('rJava', repos='http://cran.rstudio.com/')"
+
 # Create a non-root user with a home directory
 ARG NB_USER
 ARG NB_UID
