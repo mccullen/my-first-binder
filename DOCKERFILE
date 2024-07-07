@@ -8,6 +8,10 @@ RUN apt-get update && \
     pip install --no-cache --upgrade pip && \
     pip install --no-cache notebook jupyterlab
 
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH $JAVA_HOME/bin:$PATH
+
 # Create a non-root user with a home directory
 ARG NB_USER
 ARG NB_UID
