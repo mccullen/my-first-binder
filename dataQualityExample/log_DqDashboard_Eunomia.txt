@@ -1,0 +1,31 @@
+2024-07-08 18:59:20	[Main thread]	INFO	DataQualityDashboard	executeDqChecks	CDM Tables skipped: CONCEPT, VOCABULARY, CONCEPT_ANCESTOR, CONCEPT_RELATIONSHIP, CONCEPT_CLASS, CONCEPT_SYNONYM, RELATIONSHIP, DOMAIN
+2024-07-08 18:59:20	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: cdmTable
+2024-07-08 18:59:20	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: measurePersonCompleteness
+2024-07-08 18:59:21	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: measureConditionEraCompleteness
+2024-07-08 18:59:22	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: cdmField
+2024-07-08 18:59:32	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: isRequired
+2024-07-08 18:59:35	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: cdmDatatype
+2024-07-08 18:59:41	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: isPrimaryKey
+2024-07-08 18:59:42	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: isForeignKey
+2024-07-08 18:59:47	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: fkDomain
+2024-07-08 18:59:49	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: fkClass
+2024-07-08 18:59:49	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: isStandardValidConcept
+2024-07-08 18:59:51	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: measureValueCompleteness
+2024-07-08 19:00:01	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: standardConceptRecordCompleteness
+2024-07-08 19:00:03	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: sourceConceptRecordCompleteness
+2024-07-08 19:00:03	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: sourceValueCompleteness
+2024-07-08 19:00:05	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleValueLow
+2024-07-08 19:00:08	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleValueHigh
+2024-07-08 19:00:11	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleTemporalAfter
+2024-07-08 19:00:15	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleDuringLife
+2024-07-08 19:00:17	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: withinVisitDates
+2024-07-08 19:00:17	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleAfterBirth
+2024-07-08 19:00:21	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleBeforeDeath
+2024-07-08 19:00:23	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleStartBeforeEnd
+2024-07-08 19:00:24	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleGender
+2024-07-08 19:00:37	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleGenderUseDescendants
+2024-07-08 19:00:37	[Main thread]	INFO	DataQualityDashboard	FUN	Processing check description: plausibleUnitConceptIds
+2024-07-08 19:00:54	[Main thread]	INFO	DataQualityDashboard	.writeResultsToJson	Writing results to file: C:/dataQualityExample/synthea-20240708190054.json
+2024-07-08 19:00:54	[Main thread]	INFO	DataQualityDashboard	executeDqChecks	Execution Complete
+2024-07-08 19:00:54	[Main thread]	INFO	DataQualityDashboard	.writeResultsToTable	Writing results to table main.dqdashboard_results
+2024-07-08 19:00:54	[Main thread]	INFO	DataQualityDashboard	.writeResultsToTable	Finished writing table
