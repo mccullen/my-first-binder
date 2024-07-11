@@ -1,3 +1,2 @@
 dependencies:
   - jupyter-server-proxy
-  - jupyter-rsession-proxy

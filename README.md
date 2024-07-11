@@ -10,7 +10,8 @@ https://mybinder.org/v2/gh/mccullen/my-first-binder/main
 https://mybinder.org/v2/gh/mccullen/my-first-binder/main?labpath=topdir.ipynb
 
 ## Example of url proxy
-https://notebooks.gesis.org/binder/jupyter/user/mccullen-my-first-binder-f1t58fr4/proxy/3921
+**Do NOT forget trailing slash! Else, fetching scripts will not work and you will get issue below!**
+https://notebooks.gesis.org/binder/jupyter/user/mccullen-my-first-binder-f1t58fr4/proxy/3921/
 
 ## Issue
 ### Error!
