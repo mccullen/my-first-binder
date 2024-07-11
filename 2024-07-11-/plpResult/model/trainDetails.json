@@ -1,0 +1,34 @@
+{
+  "analysisId": "2024-07-11-",
+  "analysisSource": "",
+  "developmentDatabase": "main",
+  "developmentDatabaseSchema": "main",
+  "attrition": {
+    "outcomeId": [3, 3, 3, 3, 3],
+    "description": ["Original cohorts", "Initial plpData cohort or population", "At least 364 days of observation prior", "No prior outcome", "Removing non-outcome subjects with insufficient time at risk (if any)"],
+    "targetCount": [2630, 2630, 2630, 2630, 2578],
+    "uniquePeople": [2630, 2630, 2630, 2630, 2578],
+    "outcomes": [479, 479, 479, 479, 479],
+    "attr_class": "data.frame",
+    "attr_row.names": [1, 2, 3, 4, 5]
+  },
+  "trainingTime": "0.606341123580933 secs",
+  "trainingDate": "2024-07-11",
+  "modelName": "logistic",
+  "finalModelParameters": {
+    "variance": 0.0249,
+    "log_likelihood": -853.4948
+  },
+  "hyperParamSearch": {
+    "metric": ["AUC", "AUC", "AUC"],
+    "fold": [1, 2, 3],
+    "value": [0.708, 0.671, 0.6486],
+    "startingVariance": [0.01, 0.01, 0.01],
+    "lowerLimit": [0.01, 0.01, 0.01],
+    "upperLimit": [20, 20, 20],
+    "tolerance": [2e-06, 2e-06, 2e-06],
+    "attr_class": "data.frame",
+    "attr_row.names": [1, 2, 3]
+  },
+  "developmentDatabaseId": "main"
+}
