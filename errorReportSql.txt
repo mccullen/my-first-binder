@@ -2,10 +2,10 @@ DBMS:
 sqlite
 
 Error:
-no such table: achilles_dist
+no such index: idx_ar_aid
 
 SQL:
-select * from achilles_dist limit 10;
+DROP INDEX idx_ar_aid
 
 R version:
 R version 4.2.3 (2023-03-15 ucrt)
