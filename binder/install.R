@@ -1,4 +1,5 @@
 install.packages("readr")
+install.packages("rJava")
 install.packages("SqlRender")
 install.packages("DatabaseConnector")
 install.packages("Eunomia")
