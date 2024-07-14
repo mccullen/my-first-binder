@@ -10,3 +10,195 @@ editor: visual
 # Hello, World! in R
 print("Hello, World!")
 ```
+
+
+```{r}
+library("Eunomia")
+library("DatabaseConnector")
+library("CohortMethod")
+library(PatientLevelPrediction)
+library("ResultModelManager")
+library("ShinyAppBuilder")
+```
+
+```{r}
+# Got an error once and had to do this to resolve...
+#options(databaseConnectorInteger64AsNumeric = FALSE)
+
+
+connectionDetails <- getEunomiaConnectionDetails()
+
+
+createCohorts(connectionDetails)
+connection <- DatabaseConnector::connect(connectionDetails)
+
+# This is how you would connect to a different dataset
+#conn <- DatabaseConnector::connect(dbms = "sqlite", server = getDatabaseFile("MIMIC"))
+
+# Get top ppl (use limit in sqlite, not top)
+#DatabaseConnector::querySql(connection, sql="SELECT * FROM person;")
+
+# Another example query...
+#DatabaseConnector::getTableNames(connection,databaseSchema = 'main')
+
+```
+
+
+```{r}
+nsaids <- c(1118084, 1124300) # celecoxib, diclofenac
+covSettings <- createDefaultCovariateSettings(
+  excludedCovariateConceptIds = nsaids,
+  addDescendantsToExclude = TRUE)
+
+# Load data:
+cmData <- getDbCohortMethodData(
+  connectionDetails = connectionDetails,
+  cdmDatabaseSchema = "main",
+  targetId = 1,
+  comparatorId = 2,
+  outcomeIds = 3,
+  exposureDatabaseSchema = "main",
+  exposureTable = "cohort",
+  outcomeDatabaseSchema = "main",
+  outcomeTable = "cohort",
+  covariateSettings = covSettings)
+summary(cmData)
+```
+
+
+```{r}
+# Is there anoteher createStudyPopulation method? 
+# This errors if you don't prefix
+# Seems to be in both CohortMethod and PatientLevelPredictor
+studyPop <- CohortMethod::createStudyPopulation(
+  cohortMethodData = cmData,
+  outcomeId = 3,
+  washoutPeriod = 180,
+  removeDuplicateSubjects = "remove all",
+  removeSubjectsWithPriorOutcome = TRUE,
+  riskWindowStart = 0,
+  startAnchor = "cohort start",
+  riskWindowEnd = 99999)
+drawAttritionDiagram(studyPop)
+```
+
+
+```{r}
+model <- fitOutcomeModel(population = studyPop,
+                         modelType = "cox")
+model
+```
+
+
+```{r}
+ps <- createPs(cohortMethodData = cmData,
+               population = studyPop)
+plotPs(ps, showCountsLabel = TRUE, showAucLabel = TRUE)
+```
+
+```{r}
+strataPop <- stratifyByPs(ps, numberOfStrata = 5)
+bal <- computeCovariateBalance(strataPop, cmData)
+plotCovariateBalanceScatterPlot(bal,
+                                showCovariateCountLabel = TRUE,
+                                showMaxLabel = TRUE,
+                                beforeLabel = "Before stratification",
+                                afterLabel = "After stratification")
+```
+
+```{r}
+adjModel <- fitOutcomeModel(population = strataPop,
+                         modelType = "cox",
+                         stratified = TRUE)
+adjModel
+```
+
+```{r}
+dbDetails <- createDatabaseDetails(
+    connectionDetails = connectionDetails,
+    cdmDatabaseSchema = "main",
+    cdmDatabaseName = "main",
+    cdmDatabaseId = "main",
+    outcomeTable = "cohort",
+    outcomeIds = 3,
+    cohortId = 4
+)
+covSettings <- createCovariateSettings(
+  useDemographicsGender = TRUE,
+  useDemographicsAge = TRUE,
+  useConditionGroupEraLongTerm = TRUE,
+  useConditionGroupEraAnyTimePrior = TRUE,
+  useDrugGroupEraLongTerm = TRUE,
+  useDrugGroupEraAnyTimePrior = TRUE,
+  useVisitConceptCountLongTerm = TRUE,
+  longTermStartDays = -365,
+  endDays = -1)
+
+plpData <- getPlpData(
+    databaseDetails = dbDetails,
+    covariateSettings = covSettings,
+    restrictPlpDataSettings = createRestrictPlpDataSettings()
+)
+
+summary(plpData)
+```
+
+```{r}
+populationSettings <- createStudyPopulationSettings(
+    washoutPeriod = 364,
+    firstExposureOnly = F,
+    removeSubjectsWithPriorOutcome = T,
+    priorOutcomeLookback = 9999,
+    riskWindowStart = 1,
+    riskWindowEnd = 365,
+    #addExposureDaysToStart = F,
+    #addExposureDaysToEnd = F,
+    startAnchor = "cohort start",
+    endAnchor = "cohort start",
+    minTimeAtRisk = 364,
+    requireTimeAtRisk = T,
+    includeAllOutcomes = T
+
+)
+population <- createStudyPopulation(
+    plpData = plpData, 
+    populationSettings = populationSettings,
+    outcomeId = 3
+)
+nrow(population)
+```
+
+```{r}
+lassoModel <- setLassoLogisticRegression()
+#plpData$population = population
+lassoResults <- runPlp(
+                        #population = population,
+                        populationSettings = populationSettings,
+                       plpData = plpData,
+                       modelSettings = lassoModel,
+                       outcomeId = 3,
+                       #testSplit = 'person',
+                       #testFraction = 0.25,
+                       splitSettings = createDefaultSplitSetting(type = "stratified", testFraction = 0.25,trainFraction = 0.75, splitSeed = 0, nfold = 3)
+                       #nfold = 2,
+                       #splitSeed = 0
+                       )
+```
+
+
+```{r}
+library(ShinyAppBuilder)
+library(IRdisplay)
+#system('R CMD javareconf')
+viewPlp(lassoResults)#, getOption("shiny.host", "0.0.0.0"))
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
