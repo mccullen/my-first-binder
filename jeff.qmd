@@ -11,7 +11,6 @@ editor: visual
 print("Hello, World!")
 ```
 
-
 ```{r}
 library("Eunomia")
 library("DatabaseConnector")
@@ -43,7 +42,6 @@ connection <- DatabaseConnector::connect(connectionDetails)
 
 ```
 
-
 ```{r}
 nsaids <- c(1118084, 1124300) # celecoxib, diclofenac
 covSettings <- createDefaultCovariateSettings(
@@ -65,7 +63,6 @@ cmData <- getDbCohortMethodData(
 summary(cmData)
 ```
 
-
 ```{r}
 # Is there anoteher createStudyPopulation method? 
 # This errors if you don't prefix
@@ -82,13 +79,11 @@ studyPop <- CohortMethod::createStudyPopulation(
 drawAttritionDiagram(studyPop)
 ```
 
-
 ```{r}
 model <- fitOutcomeModel(population = studyPop,
                          modelType = "cox")
 model
 ```
-
 
 ```{r}
 ps <- createPs(cohortMethodData = cmData,
@@ -169,6 +164,9 @@ nrow(population)
 ```
 
 ```{r}
+# Need to wrap in try catch to swallow error. See here: https://forums.ohdsi.org/t/dqd-package-error-when-trying-to-run-executedqchecks/19314
+tryCatch({
+
 lassoModel <- setLassoLogisticRegression()
 #plpData$population = population
 lassoResults <- runPlp(
@@ -183,8 +181,11 @@ lassoResults <- runPlp(
                        #nfold = 2,
                        #splitSeed = 0
                        )
+}, error = function(e) {
+  print("******************************Error occurred but continuing:", conditionMessage(e))
+  # Handle the error gracefully or set a default return value
+})
 ```
-
 
 ```{r}
 library(ShinyAppBuilder)
@@ -193,12 +194,10 @@ library(IRdisplay)
 viewPlp(lassoResults)#, getOption("shiny.host", "0.0.0.0"))
 ```
 
-
-```{r}
-
+```{python}
+print(f"hello world fro {234} python")
 ```
 
-
 ```{r}
-
+globalCallingHandlers(NULL)
 ```
